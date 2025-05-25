@@ -20,6 +20,7 @@
   <div id="login-section">
     <h3>Login</h3>
     <input type="email" id="email" placeholder="Enter your email" />
+    <input type="password" id="password" placeholder="Enter your password" />
     <button onclick="login()">Login</button>
   </div>
 
@@ -51,14 +52,16 @@
 
 <script>
   const adminEmail = "mustajabak@gmail.com";
+  const adminPassword = "clinic123"; // Simple password
   const patients = JSON.parse(localStorage.getItem("patients") || "[]");
   let currentUser = null;
   let editIndex = -1;
 
   function login() {
     const email = document.getElementById("email").value.trim();
-    if (!email) return alert("Enter an email.");
-    if (email !== adminEmail) return alert("Access denied. Only approved users allowed.");
+    const password = document.getElementById("password").value;
+    if (!email || !password) return alert("Please enter both email and password.");
+    if (email !== adminEmail || password !== adminPassword) return alert("Access denied. Incorrect credentials.");
     currentUser = email;
     document.getElementById("user-email").innerText = email;
     document.getElementById("login-section").classList.add("hidden");
