@@ -1,137 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Clinic Portal - Firebase</title>
-  <script type="module">
-    // Import Firebase SDK
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
-    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
-    import { getDatabase, ref, push, set, onValue } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyAPCtR25dp9Q3-g5IbaNQsm1V4AnoElm5U",
-      authDomain: "clinic-portal-e32a6.firebaseapp.com",
-      projectId: "clinic-portal-e32a6",
-      storageBucket: "clinic-portal-e32a6.firebasestorage.app",
-      messagingSenderId: "168362328565",
-      appId: "1:168362328565:web:b778ba85ce30d5bc7c20bc",
-      measurementId: "G-7957SJB1PC"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth();
-    const db = getDatabase();
-
-    const loginSection = document.getElementById("login-section");
-    const mainSection = document.getElementById("main-section");
-    const registerForm = document.getElementById("register-form");
-    const loginForm = document.getElementById("login-form");
-    const userEmail = document.getElementById("user-email");
-
-    onAuthStateChanged(auth, user => {
-      if (user) {
-        loginSection.classList.add("hidden");
-        mainSection.classList.remove("hidden");
-        userEmail.innerText = user.email;
-        renderPatients();
-      } else {
-        loginSection.classList.remove("hidden");
-        mainSection.classList.add("hidden");
-      }
-    });
-
-    document.getElementById("register-btn").onclick = () => {
-      const email = document.getElementById("register-email").value;
-      const password = document.getElementById("register-password").value;
-      createUserWithEmailAndPassword(auth, email, password)
-        .then(() => alert("Registered successfully!"))
-        .catch(e => alert(e.message));
-    };
-
-    document.getElementById("login-btn").onclick = () => {
-      const email = document.getElementById("login-email").value;
-      const password = document.getElementById("login-password").value;
-      signInWithEmailAndPassword(auth, email, password)
-        .catch(e => alert(e.message));
-    };
-
-    document.getElementById("logout-btn").onclick = () => signOut(auth);
-
-    document.getElementById("save-btn").onclick = () => {
-      const patient = {
-        name: document.getElementById("name").value,
-        age: document.getElementById("age").value,
-        conditions: document.getElementById("conditions").value,
-        medications: document.getElementById("medications").value,
-        family: document.getElementById("family").value,
-        social: document.getElementById("social").value,
-        financial: document.getElementById("financial").value,
-        access: document.getElementById("access").value
-      };
-      const patientRef = push(ref(db, "patients"));
-      set(patientRef, patient);
-    };
-
-    function renderPatients() {
-      const table = document.getElementById("patient-table");
-      onValue(ref(db, "patients"), snapshot => {
-        const data = snapshot.val();
-        table.innerHTML = "";
-        for (let key in data) {
-          const p = data[key];
-          table.innerHTML += `<tr><td>${p.name}</td><td>${p.age}</td><td>${p.conditions}</td></tr>`;
-        }
-      });
-    }
-  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>I Love You Madiha</title>
   <style>
-    body { font-family: Arial, sans-serif; padding: 20px; background: #f4f4f4; }
-    .hidden { display: none; }
-    .container { max-width: 700px; margin: auto; background: white; padding: 20px; border-radius: 8px; }
-    input, textarea, button { width: 100%; padding: 10px; margin-top: 10px; }
-    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-    th, td { border: 1px solid #ccc; padding: 8px; }
+    body {
+      margin: 0;
+      background: #111;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      font-family: 'Arial', sans-serif;
+      overflow: hidden;
+    }
+    .heart {
+      position: absolute;
+      font-size: 2rem;
+      color: red;
+      animation: floatUp 5s linear infinite;
+    }
+    @keyframes floatUp {
+      0% {
+        opacity: 0;
+        transform: translateY(0);
+      }
+      50% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0;
+        transform: translateY(-100vh);
+      }
+    }
+    h1 {
+      font-size: 3rem;
+      text-align: center;
+      animation: fadeIn 2s ease-in-out;
+    }
+    @keyframes fadeIn {
+      0% { opacity: 0; transform: scale(0.8); }
+      100% { opacity: 1; transform: scale(1); }
+    }
   </style>
 </head>
 <body>
-<div class="container">
-  <h2>Clinic Medical Portal</h2>
+  <h1>I ❤️ You Madiha</h1>
 
-  <div id="login-section">
-    <h3>Register</h3>
-    <input id="register-email" type="email" placeholder="Email" />
-    <input id="register-password" type="password" placeholder="Password" />
-    <button id="register-btn">Register</button>
+  <script>
+    function createHeart() {
+      const heart = document.createElement('div');
+      heart.classList.add('heart');
+      heart.style.left = Math.random() * 100 + 'vw';
+      heart.innerText = '❤️';
+      document.body.appendChild(heart);
 
-    <h3>Login</h3>
-    <input id="login-email" type="email" placeholder="Email" />
-    <input id="login-password" type="password" placeholder="Password" />
-    <button id="login-btn">Login</button>
-  </div>
+      setTimeout(() => {
+        heart.remove();
+      }, 5000);
+    }
 
-  <div id="main-section" class="hidden">
-    <h3>Welcome, <span id="user-email"></span></h3>
-    <button id="logout-btn">Logout</button>
-
-    <h4>Add Patient</h4>
-    <input id="name" placeholder="Name" />
-    <input id="age" type="number" placeholder="Age" />
-    <textarea id="conditions" placeholder="Conditions"></textarea>
-    <textarea id="medications" placeholder="Medications"></textarea>
-    <textarea id="family" placeholder="Family History"></textarea>
-    <textarea id="social" placeholder="Social History"></textarea>
-    <input id="financial" placeholder="Financial Status" />
-    <input id="access" placeholder="Access to Bigger Cities" />
-    <button id="save-btn">Save Patient</button>
-
-    <h4>Patient List</h4>
-    <table>
-      <thead><tr><th>Name</th><th>Age</th><th>Conditions</th></tr></thead>
-      <tbody id="patient-table"></tbody>
-    </table>
-  </div>
-</div>
+    setInterval(createHeart, 300);
+  </script>
 </body>
 </html>
