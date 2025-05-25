@@ -7,7 +7,7 @@
   <style>
     body {
       margin: 0;
-      background: url('7083dd77-baa1-4ec2-9f11-10de96465caf.jpg') no-repeat center center fixed;
+      background: url('madiha.jpg') no-repeat center center fixed;
       background-size: cover;
       color: white;
       display: flex;
@@ -46,20 +46,22 @@
       0% { opacity: 0; transform: scale(0.8); }
       100% { opacity: 1; transform: scale(1); }
     }
-    audio {
+    .yt-audio {
       position: fixed;
-      bottom: 10px;
-      left: 10px;
-      z-index: 100;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 0;
+      opacity: 0;
+      pointer-events: none;
     }
   </style>
 </head>
 <body>
   <h1>I ❤️ You Madiha</h1>
-  <audio controls autoplay loop>
-    <source src="https://p.scdn.co/mp3-preview/10b98fc51b2cc6b0832605d08a5a9eb13e7d3a2f?cid=774b29d4f13844c495f206cafdad9c86" type="audio/mpeg">
-    Your browser does not support the audio element.
-  </audio>
+
+  <!-- Hidden YouTube video for background music -->
+  <iframe class="yt-audio" src="https://www.youtube.com/embed/bGNUwB62JyE?autoplay=1&loop=1&playlist=bGNUwB62JyE&controls=0&mute=0" frameborder="0" allow="autoplay"></iframe>
 
   <script>
     function createHeart() {
