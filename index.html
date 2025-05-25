@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Clinic Medical Portal</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; background: #f4f4f4; }
+    .hidden { display: none; }
+    .container { max-width: 600px; margin: auto; background: white; padding: 20px; border-radius: 8px; }
+    input, textarea, select, button { width: 100%; padding: 10px; margin-top: 10px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+    th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h2>Clinic Medical Portal</h2>
+
+  <div id="login-section">
+    <h3>Login</h3>
+    <input type="email" id="email" placeholder="Enter your email" />
+    <input type="password" id="password" placeholder="Enter your password" />
+    <button onclick="login()">Login</button>
+  </div>
+
+  <div id="main-section" class="hidden">
+    <h3>Welcome, <span id="user-email"></span></h3>
+
+    <h4>Add/Edit Patient Data</h4>
+    <input id="name" placeholder="Name" />
+    <input id="age" placeholder="Age" type="number" />
+    <textarea id="conditions" placeholder="Diagnosed Conditions"></textarea>
+    <textarea id="medications" placeholder="Current Medications"></textarea>
+    <textarea id="family" placeholder="Family History"></textarea>
+    <textarea id="social" placeholder="Social History"></textarea>
+    <input id="financial" placeholder="Financial Status" />
+    <input id="access" placeholder="Access to Larger Cities (Yes/No + notes)" />
+    <button onclick="addPatient()">Save Patient</button>
+
+    <h4>Patient List</h4>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th><th>Age</th><th>Conditions</th><th>Edit</th>
+        </tr>
+      </thead>
+      <tbody id="patient-table"></tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+  const adminEmail = "mustajabak@gmail.com";
+  const adminPassword = "clinic123"; // Simple password
+  const patients = JSON.parse(localStorage.getItem("patients") || "[]");
+  let currentUser = null;
+  let editIndex = -1;
+
+  function login() {
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value;
+    if (!email || !password) return alert("Please enter both email and password.");
+    if (email !== adminEmail || password !== adminPassword) return alert("Access denied. Incorrect credentials.");
+    currentUser = email;
+    document.getElementById("user-email").innerText = email;
+    document.getElementById("login-section").classList.add("hidden");
+    document.getElementById("main-section").classList.remove("hidden");
+    renderPatients();
+  }
+
+  function renderPatients() {
+    const table = document.getElementById("patient-table");
+    table.innerHTML = "";
+    patients.forEach((p, i) => {
+      const row = `<tr>
+        <td>${p.name}</td>
+        <td>${p.age}</td>
+        <td>${p.conditions}</td>
+        <td><button onclick="loadPatient(${i})">Edit</button></td>
+      </tr>`;
+      table.innerHTML += row;
+    });
+  }
+
+  function addPatient() {
+    const p = {
+      name: document.getElementById("name").value,
+      age: document.getElementById("age").value,
+      conditions: document.getElementById("conditions").value,
+      medications: document.getElementById("medications").value,
+      family: document.getElementById("family").value,
+      social: document.getElementById("social").value,
+      financial: document.getElementById("financial").value,
+      access: document.getElementById("access").value
+    };
+    if (editIndex >= 0) {
+      patients[editIndex] = p;
+      editIndex = -1;
+    } else {
+      patients.push(p);
+    }
+    localStorage.setItem("patients", JSON.stringify(patients));
+    renderPatients();
+    clearForm();
+  }
+
+  function loadPatient(i) {
+    const p = patients[i];
+    document.getElementById("name").value = p.name;
+    document.getElementById("age").value = p.age;
+    document.getElementById("conditions").value = p.conditions;
+    document.getElementById("medications").value = p.medications;
+    document.getElementById("family").value = p.family;
+    document.getElementById("social").value = p.social;
+    document.getElementById("financial").value = p.financial;
+    document.getElementById("access").value = p.access;
+    editIndex = i;
+  }
+
+  function clearForm() {
+    document.querySelectorAll("input, textarea").forEach(el => el.value = "");
+  }
+</script>
+</body>
+</html>
