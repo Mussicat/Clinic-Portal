@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>I Love You Madiha</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: url('background.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: white;
+      font-family: 'Arial', sans-serif;
+      height: 100vh;
+      overflow: hidden;
+      position: relative;
+    }
+
+    h1 {
+      position: absolute;
+      top: 30%;
+      width: 100%;
+      text-align: center;
+      font-size: 3rem;
+      animation: fadeIn 2s ease-in-out;
+    }
+
+    .heart {
+      position: absolute;
+      font-size: 2rem;
+      color: red;
+      animation: floatUp 5s linear infinite;
+    }
+
+    .signature {
+      position: absolute;
+      bottom: 10px;
+      right: 20px;
+      font-size: 1rem;
+      color: white;
+      font-style: italic;
+    }
+
+    @keyframes fadeIn {
+      0% { opacity: 0; transform: scale(0.8); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+
+    @keyframes floatUp {
+      0% { opacity: 0; transform: translateY(0); }
+      50% { opacity: 1; }
+      100% { opacity: 0; transform: translateY(-100vh); }
+    }
+
+    iframe {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>I ❤️ You Madiha</h1>
+  <div class="signature">your love, Mustajab</div>
+
+  <!-- Background Music -->
+  <iframe width="0" height="0" src="https://www.youtube.com/embed/aJYmxB1iiIU?autoplay=1&loop=1&playlist=aJYmxB1iiIU" frameborder="0" allow="autoplay"></iframe>
+
+  <script>
+    function createHeart() {
+      const heart = document.createElement('div');
+      heart.classList.add('heart');
+      heart.style.left = Math.random() * 100 + 'vw';
+      heart.innerText = '❤️';
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 5000);
+    }
+    setInterval(createHeart, 300);
+  </script>
+</body>
+</html>
